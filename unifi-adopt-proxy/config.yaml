@@ -1,6 +1,6 @@
 name: "UniFi Adopt Proxy"
 description: "Advertises unifi.local via mDNS and proxies the inform endpoint to your cloud UniFi controller, enabling device adoption without DHCP Option 43 or DNS control."
-version: "1.0.0"
+version: "1.0.1"
 slug: unifi-adopt-proxy
 url: "https://github.com/rsnodgrass/unifi-adopt-proxy"
 arch:
@@ -29,3 +29,5 @@ options:
 schema:
   controller_url: url
 
+# do NOT add an `image:` key here -- omitting it forces HA to build
+# from the local Dockerfile on every install/update, which is what we want

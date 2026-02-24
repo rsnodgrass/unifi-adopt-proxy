@@ -1,0 +1,35 @@
+#include <tunables/global>
+
+profile unifi-adopt-proxy flags=(attach_disconnected,mediate_deleted) {
+  #include <abstractions/base>
+
+  # capabilities
+  capability net_raw,
+
+  # network (mDNS multicast + HTTP proxy)
+  network tcp,
+  network udp,
+
+  # nginx
+  /usr/sbin/nginx ix,
+  /etc/nginx/** r,
+  /tmp/nginx.pid rw,
+
+  # avahi
+  /usr/sbin/avahi-daemon ix,
+  /etc/avahi/** r,
+
+  # dbus (required by avahi)
+  /usr/bin/dbus-daemon ix,
+  /run/dbus/** rw,
+  /var/run/dbus/** rw,
+
+  # config and data
+  /data/** r,
+
+  # deny sensitive
+  deny /proc/*/environ r,
+  deny /proc/*/cmdline r,
+  deny /etc/shadow r,
+  deny /etc/passwd w,
+}

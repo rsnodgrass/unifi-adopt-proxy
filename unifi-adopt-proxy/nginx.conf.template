@@ -7,7 +7,21 @@ events {
 }
 
 http {
-    access_log /dev/stdout;
+    # detailed log: client IP, method, status, payload size, upstream response, user-agent
+    log_format inform '$remote_addr [$time_local] "$request" '
+                      'status=$status bytes=$body_bytes_sent '
+                      'req_len=$request_length '
+                      'content_type="$content_type" '
+                      'upstream=$upstream_status/$upstream_response_time '
+                      'ua="$http_user_agent"';
+
+    # suppress health check noise (Wget from 127.0.0.1)
+    map "$remote_addr:$http_user_agent" $loggable {
+        default 1;
+        "~^127\.0\.0\.1:.*Wget" 0;
+    }
+
+    access_log /dev/stdout inform if=$loggable;
     server_tokens off;
 
     server {
@@ -31,6 +45,12 @@ http {
             # cloud controllers often use self-signed certs;
             # set PROXY_SSL_VERIFY=on and mount a CA cert to /data/custom-ca.pem to enable
             proxy_ssl_verify off;
+        }
+
+        # local-only health check -- never hits upstream
+        location = /health {
+            access_log off;
+            return 200 "ok\n";
         }
 
         location / {
