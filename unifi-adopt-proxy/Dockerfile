@@ -28,7 +28,7 @@ HEALTHCHECK --interval=30s --timeout=5s --retries=3 \
 LABEL \
     io.hass.name="UniFi Adopt Proxy" \
     io.hass.description="mDNS + reverse proxy for adopting UniFi devices to a cloud controller" \
-    io.hass.version="1.0.1" \
+    io.hass.version="1.0.2" \
     io.hass.type="addon" \
     io.hass.arch="aarch64|amd64|armhf|armv7|i386"
 

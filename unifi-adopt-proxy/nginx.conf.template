@@ -30,7 +30,7 @@ http {
 
         # only proxy the inform endpoint (all UniFi devices need)
         location /inform {
-            proxy_pass ${UNIFI_CONTROLLER_URL};
+            proxy_pass ${UNIFI_CONTROLLER_URL}/inform;
             proxy_set_header Host $host;
             proxy_set_header X-Real-IP $remote_addr;
             proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;

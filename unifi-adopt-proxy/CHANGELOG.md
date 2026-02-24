@@ -1,3 +1,8 @@
+## 1.0.2
+
+- Fix `/inform` proxy returning 302 instead of forwarding to upstream controller
+- Normalize controller URL by stripping trailing slash to prevent double-path issues
+
 ## 1.0.1
 
 - Switch to Home Assistant base images for better compatibility

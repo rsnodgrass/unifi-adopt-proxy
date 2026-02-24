@@ -30,7 +30,10 @@ case "$UNIFI_CONTROLLER_URL" in
         ;;
 esac
 
-echo "Proxying :8080/inform -> ${UNIFI_CONTROLLER_URL}"
+# strip trailing slash to avoid double-path issues in proxy_pass
+UNIFI_CONTROLLER_URL="${UNIFI_CONTROLLER_URL%/}"
+
+echo "Proxying :8080/inform -> ${UNIFI_CONTROLLER_URL}/inform"
 
 # --- generate nginx config ---
 export UNIFI_CONTROLLER_URL
