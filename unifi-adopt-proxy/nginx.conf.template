@@ -1,0 +1,40 @@
+worker_processes 1;
+error_log /dev/stderr warn;
+pid /tmp/nginx.pid;
+
+events {
+    worker_connections 64;
+}
+
+http {
+    access_log /dev/stdout;
+    server_tokens off;
+
+    server {
+        listen 8080;
+        server_name _;
+
+        # only proxy the inform endpoint (all UniFi devices need)
+        location /inform {
+            proxy_pass ${UNIFI_CONTROLLER_URL};
+            proxy_set_header Host $host;
+            proxy_set_header X-Real-IP $remote_addr;
+            proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+
+            proxy_connect_timeout 10s;
+            proxy_read_timeout 30s;
+            proxy_send_timeout 10s;
+
+            # inform payloads can be large
+            client_max_body_size 10m;
+
+            # cloud controllers often use self-signed certs;
+            # set PROXY_SSL_VERIFY=on and mount a CA cert to /data/custom-ca.pem to enable
+            proxy_ssl_verify off;
+        }
+
+        location / {
+            return 404;
+        }
+    }
+}

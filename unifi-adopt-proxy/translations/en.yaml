@@ -1,0 +1,6 @@
+configuration:
+  controller_url:
+    name: Controller URL
+    description: >-
+      Full URL of your cloud-hosted UniFi controller, including port.
+      Example: https://203.0.113.50:8443
