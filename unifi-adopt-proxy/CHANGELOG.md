@@ -1,3 +1,8 @@
+## 1.0.3
+
+- Fix entrypoint permission denied by switching from `ENTRYPOINT` to `CMD` (HA base images use S6-overlay as their entrypoint)
+- Use `chmod a+x` for broader permission compatibility
+
 ## 1.0.2
 
 - Fix `/inform` proxy returning 302 instead of forwarding to upstream controller

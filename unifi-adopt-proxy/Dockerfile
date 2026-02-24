@@ -18,7 +18,7 @@ COPY nginx.conf.template /etc/nginx/nginx.conf.template
 
 # entrypoint handles both HA add-on and standalone modes
 COPY entrypoint.sh /entrypoint.sh
-RUN chmod +x /entrypoint.sh
+RUN chmod a+x /entrypoint.sh
 
 EXPOSE 8080
 
@@ -28,8 +28,8 @@ HEALTHCHECK --interval=30s --timeout=5s --retries=3 \
 LABEL \
     io.hass.name="UniFi Adopt Proxy" \
     io.hass.description="mDNS + reverse proxy for adopting UniFi devices to a cloud controller" \
-    io.hass.version="1.0.2" \
+    io.hass.version="1.0.3" \
     io.hass.type="addon" \
     io.hass.arch="aarch64|amd64|armhf|armv7|i386"
 
-ENTRYPOINT ["/entrypoint.sh"]
+CMD ["/entrypoint.sh"]
